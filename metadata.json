@@ -1,0 +1,6 @@
+{
+  "name": "Kuzey Gündem - Maraz Dosyası: Tekstil Baronluğundan Sır Firara",
+  "description": "Büyük soruşturma: E-ticaret ve tekstil mağazalarıyla kurulan kara para aklama imparatorluğu, dokunulmazlık zırhı, bir gecelik çöküş ve esrarengiz firarın perde arkası.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
