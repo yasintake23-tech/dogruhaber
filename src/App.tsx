@@ -22,10 +22,18 @@ import { CHAPTERS } from './data/dossierData';
 
 export default function App() {
   const [themeMode, setThemeMode] = useState<'light' | 'dark' | 'sepia'>(() => {
-    return (localStorage.getItem('kz_theme') as 'light' | 'dark' | 'sepia') || 'light';
+    try {
+      return (localStorage.getItem('kz_theme') as 'light' | 'dark' | 'sepia') || 'light';
+    } catch {
+      return 'light';
+    }
   });
   const [fontSize, setFontSize] = useState<'sm' | 'base' | 'lg'>(() => {
-    return (localStorage.getItem('kz_font_size') as 'sm' | 'base' | 'lg') || 'base';
+    try {
+      return (localStorage.getItem('kz_font_size') as 'sm' | 'base' | 'lg') || 'base';
+    } catch {
+      return 'base';
+    }
   });
   const [currentChapterId, setCurrentChapterId] = useState<string>('bolum-1');
   const [activeNavSection, setActiveNavSection] = useState<string>('bolum-1');
@@ -33,13 +41,19 @@ export default function App() {
   const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
   const [isTipLineOpen, setIsTipLineOpen] = useState<boolean>(false);
   const [isBookmarked, setIsBookmarked] = useState<boolean>(() => {
-    return !!localStorage.getItem('kz_bookmark');
+    try {
+      return !!localStorage.getItem('kz_bookmark');
+    } catch {
+      return false;
+    }
   });
   const [readingProgress, setReadingProgress] = useState<number>(0);
 
   // Apply theme to document element
   useEffect(() => {
-    localStorage.setItem('kz_theme', themeMode);
+    try {
+      localStorage.setItem('kz_theme', themeMode);
+    } catch {}
     const root = document.documentElement;
     root.classList.remove('dark', 'sepia');
     if (themeMode === 'dark') {
@@ -50,7 +64,9 @@ export default function App() {
   }, [themeMode]);
 
   useEffect(() => {
-    localStorage.setItem('kz_font_size', fontSize);
+    try {
+      localStorage.setItem('kz_font_size', fontSize);
+    } catch {}
   }, [fontSize]);
 
   // Track window scroll progress
@@ -69,16 +85,18 @@ export default function App() {
   }, []);
 
   const handleToggleBookmark = () => {
-    if (isBookmarked) {
-      localStorage.removeItem('kz_bookmark');
-      setIsBookmarked(false);
-    } else {
-      localStorage.setItem('kz_bookmark', JSON.stringify({
-        chapterId: currentChapterId,
-        date: new Date().toISOString()
-      }));
-      setIsBookmarked(true);
-    }
+    try {
+      if (isBookmarked) {
+        localStorage.removeItem('kz_bookmark');
+        setIsBookmarked(false);
+      } else {
+        localStorage.setItem('kz_bookmark', JSON.stringify({
+          chapterId: currentChapterId,
+          date: new Date().toISOString()
+        }));
+        setIsBookmarked(true);
+      }
+    } catch {}
   };
 
   const handleNavigate = (sectionId: string) => {
